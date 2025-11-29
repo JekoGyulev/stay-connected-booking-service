@@ -1,8 +1,14 @@
 package com.example.bookingservice.reservation.service;
 
+import com.example.bookingservice.reservation.model.Reservation;
+
+import java.util.List;
+import java.util.UUID;
+
 public interface ReservationService {
 
-    // Fetch all reservations the user has made -> GET
+    List<Reservation> getAllReservationsByUserId(UUID userId);
+
     // Create Reservation -> POST
     // Cancel Reservation -> PATCH
 
