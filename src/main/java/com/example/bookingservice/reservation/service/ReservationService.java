@@ -1,6 +1,7 @@
 package com.example.bookingservice.reservation.service;
 
 import com.example.bookingservice.reservation.model.Reservation;
+import com.example.bookingservice.web.dto.CreateReservationRequest;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +10,10 @@ public interface ReservationService {
 
     List<Reservation> getAllReservationsByUserId(UUID userId);
 
-    // Create Reservation -> POST
+    Reservation create(CreateReservationRequest createReservationRequest);
+
+
+    // Check availability -> GET
     // Cancel Reservation -> PATCH
 
 

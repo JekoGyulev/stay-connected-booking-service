@@ -1,6 +1,6 @@
 package com.example.bookingservice.web.dto;
 
-import com.example.bookingservice.reservation.enums.ReservationStatus;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,12 +10,12 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class ReservationResponse {
+public class CreateReservationRequest {
 
-    private UUID reservationId;
+    private UUID userId;
+    private UUID propertyId;
     private LocalDate startDate;
     private LocalDate endDate;
     private BigDecimal totalPrice;
-    private ReservationStatus status;
 
 }
