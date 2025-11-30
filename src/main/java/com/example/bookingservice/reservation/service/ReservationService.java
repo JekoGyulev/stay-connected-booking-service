@@ -12,9 +12,9 @@ public interface ReservationService {
 
     Reservation create(CreateReservationRequest createReservationRequest);
 
+    Reservation cancel(UUID id);
 
     // Check availability -> GET
-    // Cancel Reservation -> PATCH
 
 
     // Get total reservations made in the app

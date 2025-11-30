@@ -1,5 +1,6 @@
 package com.example.bookingservice.reservation.service.impl;
 
+import com.example.bookingservice.exception.ResourceNotFound;
 import com.example.bookingservice.reservation.enums.ReservationStatus;
 import com.example.bookingservice.reservation.model.Reservation;
 import com.example.bookingservice.reservation.repository.ReservationRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -49,5 +51,23 @@ public class ReservationServiceImpl implements ReservationService {
         return reservation;
     }
 
-    // Have at least 1 logging message -> log.info("Successfully done {your operation}")
+    @Override
+    public Reservation cancel(UUID id) {
+
+        Optional<Reservation> optionalReservation = this.reservationRepository.findById(id);
+
+        if (optionalReservation.isEmpty()) {
+            throw new ResourceNotFound("Reservation was not found with id [%s]".formatted(id));
+        }
+
+        Reservation reservation = optionalReservation.get();
+
+        reservation.setStatus(ReservationStatus.CANCELLED);
+
+        this.reservationRepository.save(reservation);
+
+        log.info("Reservation cancelled with id: {}", reservation.getId());
+
+        return reservation;
+    }
 }
