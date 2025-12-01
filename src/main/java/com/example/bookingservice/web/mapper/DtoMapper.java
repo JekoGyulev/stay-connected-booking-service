@@ -14,6 +14,7 @@ public class DtoMapper {
                 .endDate(reservation.getEndDate())
                 .totalPrice(reservation.getTotalPrice())
                 .status(reservation.getStatus())
+                .propertyId(reservation.getPropertyId())
                 .build();
     }
 

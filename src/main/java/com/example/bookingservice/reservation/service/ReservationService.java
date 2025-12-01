@@ -14,10 +14,10 @@ public interface ReservationService {
 
     Reservation cancel(UUID id);
 
+    long getTotalCountReservations();
+
     // Check availability -> GET
 
-
-    // Get total reservations made in the app
     // Get total reservations a user has made
     // Get total booked reservations
     // Get total cancelled reservations

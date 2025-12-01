@@ -17,5 +17,6 @@ public class ReservationResponse {
     private LocalDate endDate;
     private BigDecimal totalPrice;
     private ReservationStatus status;
+    private UUID propertyId;
 
 }

@@ -70,4 +70,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         return reservation;
     }
+
+    @Override
+    public long getTotalCountReservations() {
+        return this.reservationRepository.count();
+    }
 }

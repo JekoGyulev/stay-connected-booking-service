@@ -26,6 +26,11 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
+    @GetMapping("/total")
+    public ResponseEntity<Long>  getTotalCountReservations() {
+        return ResponseEntity.ok(this.reservationService.getTotalCountReservations());
+    }
+
 
     @GetMapping
     public ResponseEntity<List<ReservationResponse>> getAllReservationsByUser(@RequestParam(value = "userId") UUID userId) {
