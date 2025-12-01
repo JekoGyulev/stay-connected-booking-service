@@ -63,7 +63,7 @@ public class ReservationController {
                 .body(response);
     }
 
-    @PatchMapping("/cancellation")
+    @PutMapping("/cancellation")
     public ResponseEntity<ReservationResponse> cancelReservation(@RequestParam("reservationId") UUID reservationId) {
 
         Reservation reservation = this.reservationService.cancel(reservationId);
