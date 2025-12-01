@@ -58,10 +58,10 @@ public class ReservationController {
                 .body(response);
     }
 
-    @PatchMapping("/{id}/cancellation")
-    public ResponseEntity<ReservationResponse> cancelReservation(@PathVariable UUID id) {
+    @PatchMapping("/cancellation")
+    public ResponseEntity<ReservationResponse> cancelReservation(@RequestParam("reservationId") UUID reservationId) {
 
-        Reservation reservation = this.reservationService.cancel(id);
+        Reservation reservation = this.reservationService.cancel(reservationId);
 
         ReservationResponse reservationResponse = DtoMapper.fromReservation(reservation);
 
