@@ -9,7 +9,7 @@ import java.util.UUID;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation,UUID> {
 
-    List<Reservation> findAllByUserId(UUID userId);
+    List<Reservation> findAllByUserIdOrderByCreatedAtDesc(UUID userId);
 
 
 

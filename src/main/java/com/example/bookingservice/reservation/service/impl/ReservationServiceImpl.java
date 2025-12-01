@@ -29,7 +29,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<Reservation> getAllReservationsByUserId(UUID userId) {
-        return this.reservationRepository.findAllByUserId(userId);
+        return this.reservationRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
     }
 
     @Override
