@@ -100,7 +100,8 @@ public class ReservationServiceImpl implements ReservationService {
                     .count();
 
             return BigDecimal.valueOf(bookedReservationsCount)
-                    .divide(BigDecimal.valueOf(countReservations), 2, RoundingMode.HALF_UP);
+                    .divide(BigDecimal.valueOf(countReservations), 2, RoundingMode.HALF_UP)
+                    .multiply(BigDecimal.valueOf(100));
         }
 
 
@@ -110,7 +111,8 @@ public class ReservationServiceImpl implements ReservationService {
                     .count();
 
         return BigDecimal.valueOf(cancelledReservationsCount)
-                .divide(BigDecimal.valueOf(countReservations), 2, RoundingMode.HALF_UP);
+                .divide(BigDecimal.valueOf(countReservations), 2, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100));
 
     }
 

@@ -29,7 +29,7 @@ public class ReservationController {
     }
 
     @GetMapping("/percentage")
-    public ResponseEntity<BigDecimal> getCompletedBookingsPercentage(@RequestParam("type") String reservationStatus) {
+    public ResponseEntity<BigDecimal> getCompletedBookingsPercentage(@RequestParam("status") String reservationStatus) {
         BigDecimal percentage = this.reservationService.calculatePercentage(ReservationStatus.valueOf(reservationStatus));
 
         return new ResponseEntity<>(percentage, HttpStatus.OK);
