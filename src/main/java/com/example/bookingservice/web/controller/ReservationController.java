@@ -36,8 +36,8 @@ public class ReservationController {
     }
 
     @GetMapping("/total")
-    public ResponseEntity<Long>  getTotalCountReservations() {
-        return ResponseEntity.ok(this.reservationService.getTotalCountReservations());
+    public ResponseEntity<Long>  getTotalCountReservations(@RequestParam(value = "status") String reservationStatus) {
+        return ResponseEntity.ok(this.reservationService.getTotalCountReservations(reservationStatus));
     }
 
 

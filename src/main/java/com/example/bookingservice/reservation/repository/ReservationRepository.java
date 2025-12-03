@@ -1,4 +1,5 @@
 package com.example.bookingservice.reservation.repository;
+import com.example.bookingservice.reservation.enums.ReservationStatus;
 import com.example.bookingservice.reservation.model.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,5 @@ public interface ReservationRepository extends JpaRepository<Reservation,UUID> {
 
     List<Reservation> findAllByUserIdOrderByCreatedAtDesc(UUID userId);
 
-
-
-
+    long countAllByStatus(ReservationStatus reservationStatus);
 }

@@ -16,7 +16,7 @@ public interface ReservationService {
 
     Reservation cancel(UUID id);
 
-    long getTotalCountReservations();
+    long getTotalCountReservations(String status);
 
     BigDecimal calculatePercentage(ReservationStatus reservationStatus);
 

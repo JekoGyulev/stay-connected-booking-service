@@ -78,8 +78,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public long getTotalCountReservations() {
-        return this.reservationRepository.count();
+    public long getTotalCountReservations(String status) {
+
+        if (status.equals("ALL")) {
+            return this.reservationRepository.count();
+        }
+
+        return this.reservationRepository.countAllByStatus(ReservationStatus.valueOf(status));
     }
 
     @Override
