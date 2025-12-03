@@ -1,6 +1,7 @@
 package com.example.bookingservice.web.controller;
 
 
+import com.example.bookingservice.reservation.enums.ReservationStatus;
 import com.example.bookingservice.reservation.model.Reservation;
 import com.example.bookingservice.reservation.service.ReservationService;
 import com.example.bookingservice.web.dto.CreateReservationRequest;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +26,13 @@ public class ReservationController {
     @Autowired
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
+    }
+
+    @GetMapping("/percentage")
+    public ResponseEntity<BigDecimal> getCompletedBookingsPercentage(@RequestParam("type") String reservationStatus) {
+        BigDecimal percentage = this.reservationService.calculatePercentage(ReservationStatus.valueOf(reservationStatus));
+
+        return new ResponseEntity<>(percentage, HttpStatus.OK);
     }
 
     @GetMapping("/total")

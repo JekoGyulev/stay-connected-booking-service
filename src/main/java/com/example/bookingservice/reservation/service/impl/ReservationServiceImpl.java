@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -79,4 +81,39 @@ public class ReservationServiceImpl implements ReservationService {
     public long getTotalCountReservations() {
         return this.reservationRepository.count();
     }
+
+    @Override
+    public BigDecimal calculatePercentage(ReservationStatus reservationStatus) {
+
+        List<Reservation> allReservations = this.reservationRepository.findAll();
+
+        if (allReservations.isEmpty()) return BigDecimal.ZERO;
+
+        long countReservations = allReservations.size();
+
+        BigDecimal percentage;
+
+        if (reservationStatus == ReservationStatus.BOOKED) {
+            long bookedReservationsCount = allReservations
+                    .stream()
+                    .filter(reservation -> reservation.getStatus() == ReservationStatus.BOOKED)
+                    .count();
+
+            return BigDecimal.valueOf(bookedReservationsCount)
+                    .divide(BigDecimal.valueOf(countReservations), 2, RoundingMode.HALF_UP);
+        }
+
+
+        long cancelledReservationsCount = allReservations
+                    .stream()
+                    .filter(reservation -> reservation.getStatus() == ReservationStatus.CANCELLED)
+                    .count();
+
+        return BigDecimal.valueOf(cancelledReservationsCount)
+                .divide(BigDecimal.valueOf(countReservations), 2, RoundingMode.HALF_UP);
+
+    }
+
+
 }
+
