@@ -29,7 +29,11 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<Reservation> getAllReservationsByUserId(UUID userId) {
-        return this.reservationRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
+        List<Reservation> reservationsByUser = this.reservationRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
+
+        if (reservationsByUser.isEmpty()) throw new ResourceNotFound("Reservations for user with id [%s] were not found".formatted(userId));
+
+        return  reservationsByUser;
     }
 
     @Override
@@ -57,7 +61,7 @@ public class ReservationServiceImpl implements ReservationService {
         Optional<Reservation> optionalReservation = this.reservationRepository.findById(id);
 
         if (optionalReservation.isEmpty()) {
-            throw new ResourceNotFound("Reservation was not found with id [%s]".formatted(id));
+            throw new ResourceNotFound("Reservation with such id [%s] was not found".formatted(id));
         }
 
         Reservation reservation = optionalReservation.get();

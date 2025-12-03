@@ -37,10 +37,6 @@ public class ReservationController {
 
         List<Reservation> reservationsByUser = this.reservationService.getAllReservationsByUserId(userId);
 
-        if (reservationsByUser.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
         List<ReservationResponse> reservationResponses = reservationsByUser.stream()
                 .map(DtoMapper::fromReservation)
                 .toList();
