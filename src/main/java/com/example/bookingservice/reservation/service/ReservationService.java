@@ -22,6 +22,4 @@ public interface ReservationService {
 
     // Check availability -> GET
 
-    // Get total booked reservations
-    // Get total cancelled reservations
 }
