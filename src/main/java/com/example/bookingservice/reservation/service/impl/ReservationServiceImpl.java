@@ -6,6 +6,7 @@ import com.example.bookingservice.reservation.model.Reservation;
 import com.example.bookingservice.reservation.repository.ReservationRepository;
 import com.example.bookingservice.reservation.service.ReservationService;
 import com.example.bookingservice.web.dto.CreateReservationRequest;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    @Transactional
     public Reservation cancel(UUID id) {
 
         Optional<Reservation> optionalReservation = this.reservationRepository.findById(id);
