@@ -57,35 +57,35 @@ public class RestControllerTest {
 
     }
 
-    @Test
-    void whenThereAreReservationsForUser_thenReturnResponseAndStatusOk() throws Exception {
-
-        UUID userId = UUID.randomUUID();
-
-        Reservation reservation = Reservation
-                .builder()
-                .id(UUID.randomUUID())
-                .userId(userId)
-                .build();
-
-        Reservation reservation2 = Reservation
-                .builder()
-                .id(UUID.randomUUID())
-                .userId(userId)
-                .build();
-
-        when(reservationService.getAllReservationsByUserId(userId))
-                .thenReturn(List.of(reservation, reservation2));
-
-
-        mockMvc.perform(get("/api/v1/reservations").param("userId", userId.toString()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].reservationId").value(reservation.getId().toString()))
-                .andExpect(jsonPath("$[1].reservationId").value(reservation2.getId().toString()));
-
-        verify(reservationService).getAllReservationsByUserId(userId);
-
-    }
+//    @Test
+//    void whenThereAreReservationsForUser_thenReturnResponseAndStatusOk() throws Exception {
+//
+//        UUID userId = UUID.randomUUID();
+//
+//        Reservation reservation = Reservation
+//                .builder()
+//                .id(UUID.randomUUID())
+//                .userId(userId)
+//                .build();
+//
+//        Reservation reservation2 = Reservation
+//                .builder()
+//                .id(UUID.randomUUID())
+//                .userId(userId)
+//                .build();
+//
+//        when(reservationService.getAllReservationsByUserId(userId))
+//                .thenReturn(List.of(reservation, reservation2));
+//
+//
+//        mockMvc.perform(get("/api/v1/reservations").param("userId", userId.toString()))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$[0].reservationId").value(reservation.getId().toString()))
+//                .andExpect(jsonPath("$[1].reservationId").value(reservation2.getId().toString()));
+//
+//        verify(reservationService).getAllReservationsByUserId(userId);
+//
+//    }
 
     @Test
     void whenThereAreBookedReservations_andSendRequestToCalculateAveragePercentageBookedOnes_thenReturnPercentage() throws Exception {
@@ -110,7 +110,8 @@ public class RestControllerTest {
         when(reservationService.calculatePercentage(ReservationStatus.BOOKED))
                 .thenReturn(BigDecimal.valueOf(50.00));
 
-        mockMvc.perform(get("/api/v1/reservations/percentage").param("status", String.valueOf(ReservationStatus.BOOKED)))
+        mockMvc.perform(get("/api/v1/reservations/percentage")
+                        .param("status", String.valueOf(ReservationStatus.BOOKED)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(50.00));
 

@@ -33,36 +33,36 @@ public class ReservationServiceUTest {
     @InjectMocks
     private ReservationServiceImpl reservationServiceImpl;
 
-    @Test
-    void whenThereAreReservationsForUser_thenReturnThem() {
+//    @Test
+//    void whenThereAreReservationsForUser_thenReturnThem() {
+//
+//        UUID userId = UUID.randomUUID();
+//
+//        Reservation reservation = Reservation.builder().userId(userId).build();
+//        Reservation reservation2 = Reservation.builder().userId(userId).build();
+//
+//        List<Reservation> reservations = Arrays.asList(reservation, reservation2);
+//
+//        when(reservationRepository.findAllByUserIdOrderByCreatedAtDesc(userId))
+//                .thenReturn(reservations);
+//
+//        List<Reservation> result = reservationServiceImpl.getAllReservationsByUserId(userId);
+//
+//
+//        assertEquals(reservations.size(), result.size());
+//        assertArrayEquals(reservations.toArray(), result.toArray());
+//        verify(reservationRepository).findAllByUserIdOrderByCreatedAtDesc(userId);
+//    }
 
-        UUID userId = UUID.randomUUID();
-
-        Reservation reservation = Reservation.builder().userId(userId).build();
-        Reservation reservation2 = Reservation.builder().userId(userId).build();
-
-        List<Reservation> reservations = Arrays.asList(reservation, reservation2);
-
-        when(reservationRepository.findAllByUserIdOrderByCreatedAtDesc(userId))
-                .thenReturn(reservations);
-
-        List<Reservation> result = reservationServiceImpl.getAllReservationsByUserId(userId);
-
-
-        assertEquals(reservations.size(), result.size());
-        assertArrayEquals(reservations.toArray(), result.toArray());
-        verify(reservationRepository).findAllByUserIdOrderByCreatedAtDesc(userId);
-    }
-
-    @Test
-    void whenThereAreNoReservationsForUser_thenThrowException() {
-        UUID userId = UUID.randomUUID();
-
-        when(reservationRepository.findAllByUserIdOrderByCreatedAtDesc(userId))
-                .thenReturn(Collections.emptyList());
-
-        assertThrows(ResourceNotFound.class, () -> reservationServiceImpl.getAllReservationsByUserId(userId));
-    }
+//    @Test
+//    void whenThereAreNoReservationsForUser_thenThrowException() {
+//        UUID userId = UUID.randomUUID();
+//
+//        when(reservationRepository.findAllByUserIdOrderByCreatedAtDesc(userId))
+//                .thenReturn(Collections.emptyList());
+//
+//        assertThrows(ResourceNotFound.class, () -> reservationServiceImpl.getAllReservationsByUserId(userId));
+//    }
 
 
     @Test

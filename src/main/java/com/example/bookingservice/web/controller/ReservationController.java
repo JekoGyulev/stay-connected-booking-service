@@ -5,9 +5,12 @@ import com.example.bookingservice.reservation.enums.ReservationStatus;
 import com.example.bookingservice.reservation.model.Reservation;
 import com.example.bookingservice.reservation.service.ReservationService;
 import com.example.bookingservice.web.dto.CreateReservationRequest;
+
+import com.example.bookingservice.web.dto.PageResponse;
 import com.example.bookingservice.web.dto.ReservationResponse;
 import com.example.bookingservice.web.mapper.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,15 +45,53 @@ public class ReservationController {
 
 
     @GetMapping
-    public ResponseEntity<List<ReservationResponse>> getAllReservationsByUser(@RequestParam(value = "userId") UUID userId) {
+    public ResponseEntity<PageResponse<ReservationResponse>> getAllReservationsByUser(
+                                                    @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+                                                    @RequestParam(value = "pageSize", defaultValue = "3") int pageSize,
+                                                    @RequestParam(value = "userId") UUID userId) {
 
-        List<Reservation> reservationsByUser = this.reservationService.getAllReservationsByUserId(userId);
+        Page<Reservation> reservationsByUser = this.reservationService.getAllReservationsByUserId(userId, pageNumber, pageSize);
 
         List<ReservationResponse> reservationResponses = reservationsByUser.stream()
                 .map(DtoMapper::fromReservation)
                 .toList();
 
-        return ResponseEntity.ok().body(reservationResponses);
+        PageResponse<ReservationResponse> pageResponse = new PageResponse<>();
+        pageResponse.setContent(reservationResponses);
+        pageResponse.setTotalPages(reservationsByUser.getTotalPages());
+        pageResponse.setTotalElements(reservationsByUser.getTotalElements());
+        pageResponse.setPageNumber(reservationsByUser.getNumber());
+        pageResponse.setPageSize(reservationsByUser.getSize());
+
+
+        return ResponseEntity.ok().body(pageResponse);
+    }
+
+
+    @GetMapping("/status")
+    public ResponseEntity<PageResponse<ReservationResponse>> getAllReservationsByPropertyId(
+                                        @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
+                                        @RequestParam(value = "pageSize", defaultValue = "3") int pageSize,
+                                        @RequestParam(value = "userId") UUID userId,
+                                        @RequestParam(value = "reservationStatus") String reservationStatus) {
+
+
+        Page<Reservation> reservationsPage = this.reservationService
+                .getAllReservationsByUserIdAndStatus(userId, reservationStatus, pageNumber, pageSize);
+
+        List<ReservationResponse> content = reservationsPage.stream()
+                .map(DtoMapper::fromReservation)
+                .toList();
+
+        PageResponse<ReservationResponse> pageResponse = new PageResponse<>();
+        pageResponse.setContent(content);
+        pageResponse.setTotalPages(reservationsPage.getTotalPages());
+        pageResponse.setTotalElements(reservationsPage.getTotalElements());
+        pageResponse.setPageNumber(reservationsPage.getNumber());
+        pageResponse.setPageSize(reservationsPage.getSize());
+
+
+        return ResponseEntity.ok().body(pageResponse);
     }
 
 

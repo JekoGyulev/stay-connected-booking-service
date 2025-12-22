@@ -9,6 +9,8 @@ import com.example.bookingservice.web.dto.CreateReservationRequest;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,12 +33,31 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public List<Reservation> getAllReservationsByUserId(UUID userId) {
-        List<Reservation> reservationsByUser = this.reservationRepository.findAllByUserIdOrderByCreatedAtDesc(userId);
+    public Page<Reservation> getAllReservationsByUserId(UUID userId, int pageNumber, int pageSize) {
 
-        if (reservationsByUser.isEmpty()) throw new ResourceNotFound("Reservations for user with id [%s] were not found".formatted(userId));
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+
+        Page<Reservation> reservationsByUser =
+                this.reservationRepository.findAllByUserIdOrderByCreatedAtDesc(userId, pageRequest);
+
+        if (reservationsByUser.isEmpty())
+            throw new ResourceNotFound("Reservations for user with id [%s] were not found".formatted(userId));
 
         return  reservationsByUser;
+    }
+
+    @Override
+    public Page<Reservation> getAllReservationsByUserIdAndStatus(UUID userId, String reservationStatus, int pageNumber, int pageSize) {
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+
+        ReservationStatus status = ReservationStatus.valueOf(reservationStatus);
+
+        return this.reservationRepository.findAllByStatusAndUserIdOrderByCreatedAtDesc(
+                status,
+                userId,
+                pageRequest
+        );
     }
 
     @Override

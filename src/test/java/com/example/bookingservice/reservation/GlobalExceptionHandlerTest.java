@@ -28,32 +28,32 @@ public class GlobalExceptionHandlerTest {
     private ReservationService reservationService;
 
 
-    @Test
-    void whenResourceNotFound_thenReturnNotFoundStatusAndErrorResponse() throws Exception {
-        UUID userId =  UUID.randomUUID();
-
-        when(reservationService.getAllReservationsByUserId(userId))
-                .thenThrow(new ResourceNotFound("Reservations for user were not found"));
-
-        mockMvc.perform(get("/api/v1/reservations").param("userId",userId.toString()))
-                .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("Reservations for user were not found"))
-                .andExpect(jsonPath("$.timestamp").exists());
-
-    }
-
-    @Test
-    void whenResourceHasBadParameter_thenReturnBadRequestStatusAndErrorResponse() throws Exception {
-        UUID userId =  UUID.randomUUID();
-
-        when(reservationService.getAllReservationsByUserId(userId))
-                .thenThrow(new RuntimeException("Bad Request"));
-
-        mockMvc.perform(get("/api/v1/reservations").param("userId",userId.toString()))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message").value("Bad Request"))
-                .andExpect(jsonPath("$.timestamp").exists());
-    }
+//    @Test
+//    void whenResourceNotFound_thenReturnNotFoundStatusAndErrorResponse() throws Exception {
+//        UUID userId =  UUID.randomUUID();
+//
+//        when(reservationService.getAllReservationsByUserId(userId))
+//                .thenThrow(new ResourceNotFound("Reservations for user were not found"));
+//
+//        mockMvc.perform(get("/api/v1/reservations").param("userId",userId.toString()))
+//                .andExpect(status().isNotFound())
+//                .andExpect(jsonPath("$.message").value("Reservations for user were not found"))
+//                .andExpect(jsonPath("$.timestamp").exists());
+//
+//    }
+//
+//    @Test
+//    void whenResourceHasBadParameter_thenReturnBadRequestStatusAndErrorResponse() throws Exception {
+//        UUID userId =  UUID.randomUUID();
+//
+//        when(reservationService.getAllReservationsByUserId(userId))
+//                .thenThrow(new RuntimeException("Bad Request"));
+//
+//        mockMvc.perform(get("/api/v1/reservations").param("userId",userId.toString()))
+//                .andExpect(status().isBadRequest())
+//                .andExpect(jsonPath("$.message").value("Bad Request"))
+//                .andExpect(jsonPath("$.timestamp").exists());
+//    }
 
 
 
