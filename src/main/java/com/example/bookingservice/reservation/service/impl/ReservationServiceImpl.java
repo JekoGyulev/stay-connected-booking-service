@@ -74,8 +74,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         this.reservationRepository.save(reservation);
 
-        log.info("Reservation created with id: {}", reservation.getId());
-
         return reservation;
     }
 
