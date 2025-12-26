@@ -93,8 +93,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         this.reservationRepository.save(reservation);
 
-        log.info("Reservation cancelled with id: {}", reservation.getId());
-
         return reservation;
     }
 
