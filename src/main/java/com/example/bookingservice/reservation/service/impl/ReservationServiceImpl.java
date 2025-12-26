@@ -1,5 +1,6 @@
 package com.example.bookingservice.reservation.service.impl;
 
+import com.example.bookingservice.aop.annotations.LogExecutionTime;
 import com.example.bookingservice.exception.ResourceNotFound;
 import com.example.bookingservice.reservation.enums.ReservationStatus;
 import com.example.bookingservice.reservation.model.Reservation;
@@ -7,7 +8,6 @@ import com.example.bookingservice.reservation.repository.ReservationRepository;
 import com.example.bookingservice.reservation.service.ReservationService;
 import com.example.bookingservice.web.dto.CreateReservationRequest;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,6 @@ import java.util.UUID;
 
 
 @Service
-@Slf4j
 public class ReservationServiceImpl implements ReservationService {
 
     private final ReservationRepository reservationRepository;
@@ -33,6 +32,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
+    @LogExecutionTime
     public Page<Reservation> getAllReservationsByUserId(UUID userId, int pageNumber, int pageSize) {
 
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
@@ -74,8 +74,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         this.reservationRepository.save(reservation);
 
-        log.info("Reservation created with id: {}", reservation.getId());
-
         return reservation;
     }
 
@@ -94,8 +92,6 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setStatus(ReservationStatus.CANCELLED);
 
         this.reservationRepository.save(reservation);
-
-        log.info("Reservation cancelled with id: {}", reservation.getId());
 
         return reservation;
     }
