@@ -3,7 +3,9 @@ package com.example.bookingservice.aop;
 
 import com.example.bookingservice.reservation.model.Reservation;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
@@ -34,6 +36,23 @@ public class LoggingAspect {
 
         log.info("Reservation with id [{}] from {} to {} was cancelled", result.getId(),
                     result.getStartDate().format(formatter), result.getEndDate().format(formatter));
+    }
+
+
+    @Around(value = "@annotation(com.example.bookingservice.aop.annotations.LogExecutionTime)")
+    public Object logTimeWhileFetchingAllReservations(ProceedingJoinPoint joinPoint) throws Throwable {
+
+        long startTime = System.currentTimeMillis();
+
+        Object result = joinPoint.proceed();
+
+        long endTime = System.currentTimeMillis();
+
+        long duration = endTime - startTime;
+
+        log.info("{} executed in {} ms", joinPoint.getSignature().getName(), duration);
+
+        return result;
     }
 
 
