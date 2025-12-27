@@ -2,6 +2,7 @@ package com.example.bookingservice.web.controller;
 
 import com.example.bookingservice.exception.ResourceNotFound;
 import com.example.bookingservice.web.dto.ErrorResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
+@Hidden
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFound.class)

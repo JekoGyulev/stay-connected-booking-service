@@ -9,6 +9,8 @@ import com.example.bookingservice.web.dto.CreateReservationRequest;
 import com.example.bookingservice.web.dto.PageResponse;
 import com.example.bookingservice.web.dto.ReservationResponse;
 import com.example.bookingservice.web.mapper.DtoMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/reservations")
+@Tag(name = "Reservations", description = "Manage reservations")
 public class ReservationController {
 
     private final ReservationService reservationService;
@@ -32,6 +35,7 @@ public class ReservationController {
     }
 
     @GetMapping("/percentage")
+    @Operation(summary = "Get percentage of completed bookings")
     public ResponseEntity<BigDecimal> getCompletedBookingsPercentage(@RequestParam("status") String reservationStatus) {
         BigDecimal percentage = this.reservationService.calculatePercentage(ReservationStatus.valueOf(reservationStatus));
 
@@ -39,12 +43,14 @@ public class ReservationController {
     }
 
     @GetMapping("/total")
+    @Operation(summary = "Get total count of reservations")
     public ResponseEntity<Long>  getTotalCountReservations(@RequestParam(value = "status") String reservationStatus) {
         return ResponseEntity.ok(this.reservationService.getTotalCountReservations(reservationStatus));
     }
 
 
     @GetMapping
+    @Operation(summary = "Get reservations by user ID")
     public ResponseEntity<PageResponse<ReservationResponse>> getAllReservationsByUser(
                                                     @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
                                                     @RequestParam(value = "pageSize", defaultValue = "3") int pageSize,
@@ -69,6 +75,7 @@ public class ReservationController {
 
 
     @GetMapping("/status")
+    @Operation(summary = "Get reservations by user ID and reservation status")
     public ResponseEntity<PageResponse<ReservationResponse>> getAllReservationsByPropertyId(
                                         @RequestParam(value = "pageNumber", defaultValue = "0") int pageNumber,
                                         @RequestParam(value = "pageSize", defaultValue = "3") int pageSize,
@@ -96,6 +103,7 @@ public class ReservationController {
 
 
     @PostMapping
+    @Operation(summary = "Create reservation")
     public ResponseEntity<ReservationResponse> createReservation(@RequestBody CreateReservationRequest createReservationRequest) {
 
         Reservation reservation = this.reservationService.create(createReservationRequest);
@@ -110,6 +118,7 @@ public class ReservationController {
     }
 
     @PutMapping("/cancellation")
+    @Operation(summary = "Cancel reservation by ID")
     public ResponseEntity<ReservationResponse> cancelReservation(@RequestParam("reservationId") UUID reservationId) {
 
         Reservation reservation = this.reservationService.cancel(reservationId);
