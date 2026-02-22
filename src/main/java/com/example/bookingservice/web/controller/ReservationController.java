@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +33,16 @@ public class ReservationController {
     @Autowired
     public ReservationController(ReservationService reservationService) {
         this.reservationService = reservationService;
+    }
+
+
+    @GetMapping("/unavailable-to-book")
+    public ResponseEntity<List<UUID>> getUnavailableToBookPropertyIds(@RequestParam("checkIn") LocalDate startDate,
+                                                                      @RequestParam("checkOut") LocalDate endDate) {
+
+        List<UUID> unavailableToBookPropertyIds = this.reservationService.getUnavailableToBookPropertyIds(startDate, endDate);
+
+        return new ResponseEntity<>(unavailableToBookPropertyIds, HttpStatus.OK);
     }
 
     @GetMapping("/percentage")

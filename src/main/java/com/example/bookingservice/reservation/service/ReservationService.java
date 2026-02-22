@@ -6,6 +6,8 @@ import com.example.bookingservice.web.dto.CreateReservationRequest;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public interface ReservationService {
@@ -22,6 +24,5 @@ public interface ReservationService {
 
     BigDecimal calculatePercentage(ReservationStatus reservationStatus);
 
-    // Check availability -> GET
-
+    List<UUID> getUnavailableToBookPropertyIds(LocalDate startDate, LocalDate endDate);
 }

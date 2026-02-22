@@ -4,9 +4,13 @@ import com.example.bookingservice.reservation.model.Reservation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -17,4 +21,11 @@ public interface ReservationRepository extends JpaRepository<Reservation,UUID> {
     Page<Reservation> findAllByStatusAndUserIdOrderByCreatedAtDesc(ReservationStatus status, UUID userId, Pageable pageable);
 
     long countAllByStatus(ReservationStatus reservationStatus);
+
+
+    @Query("""
+            SELECT DISTINCT r.propertyId FROM Reservation r
+                WHERE r.startDate < :endDate AND r.endDate > :startDate
+    """)
+    List<UUID> findUnavailablePropertyIds(@Param(value = "startDate") LocalDate startDate, @Param(value = "endDate") LocalDate endDate);
 }

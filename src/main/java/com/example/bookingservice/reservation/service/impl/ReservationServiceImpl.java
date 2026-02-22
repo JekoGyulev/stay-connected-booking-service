@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -138,6 +139,11 @@ public class ReservationServiceImpl implements ReservationService {
                 .divide(BigDecimal.valueOf(countReservations), 2, RoundingMode.HALF_UP)
                 .multiply(BigDecimal.valueOf(100));
 
+    }
+
+    @Override
+    public List<UUID> getUnavailableToBookPropertyIds(LocalDate startDate, LocalDate endDate) {
+        return this.reservationRepository.findUnavailablePropertyIds(startDate, endDate);
     }
 
 
