@@ -26,6 +26,8 @@ public interface ReservationRepository extends JpaRepository<Reservation,UUID> {
     @Query("""
             SELECT DISTINCT r.propertyId FROM Reservation r
                 WHERE r.startDate < :endDate AND r.endDate > :startDate
+                    AND r.status = 'BOOKED'
     """)
-    List<UUID> findUnavailablePropertyIds(@Param(value = "startDate") LocalDate startDate, @Param(value = "endDate") LocalDate endDate);
+    List<UUID> findUnavailablePropertyIds(@Param(value = "startDate") LocalDate startDate,
+                                          @Param(value = "endDate") LocalDate endDate);
 }
