@@ -146,6 +146,13 @@ public class ReservationServiceImpl implements ReservationService {
         return this.reservationRepository.findUnavailablePropertyIds(startDate, endDate);
     }
 
+    @Override
+    public List<Reservation> getBookedReservationsByPropertyId(UUID propertyId) {
+        return this.reservationRepository.findAllByPropertyId(propertyId)
+                .stream().filter(reservation -> reservation.getStatus() == ReservationStatus.BOOKED)
+                .toList();
+    }
+
 
 }
 

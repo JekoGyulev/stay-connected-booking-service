@@ -2,6 +2,7 @@ package com.example.bookingservice.reservation.service;
 
 import com.example.bookingservice.reservation.enums.ReservationStatus;
 import com.example.bookingservice.reservation.model.Reservation;
+import com.example.bookingservice.web.dto.BookingDatesResponse;
 import com.example.bookingservice.web.dto.CreateReservationRequest;
 import org.springframework.data.domain.Page;
 
@@ -25,4 +26,6 @@ public interface ReservationService {
     BigDecimal calculatePercentage(ReservationStatus reservationStatus);
 
     List<UUID> getUnavailableToBookPropertyIds(LocalDate startDate, LocalDate endDate);
+
+    List<Reservation> getBookedReservationsByPropertyId(UUID propertyId);
 }

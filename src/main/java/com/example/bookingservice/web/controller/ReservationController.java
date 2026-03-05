@@ -4,6 +4,7 @@ package com.example.bookingservice.web.controller;
 import com.example.bookingservice.reservation.enums.ReservationStatus;
 import com.example.bookingservice.reservation.model.Reservation;
 import com.example.bookingservice.reservation.service.ReservationService;
+import com.example.bookingservice.web.dto.BookingDatesResponse;
 import com.example.bookingservice.web.dto.CreateReservationRequest;
 
 import com.example.bookingservice.web.dto.PageResponse;
@@ -35,8 +36,20 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
+    @GetMapping("/{propertyId}/booked-dates")
+    @Operation(summary = "Get property's booked dates")
+    public ResponseEntity<List<BookingDatesResponse>> getBookedDatesForProperty(@PathVariable UUID propertyId) {
+
+        List<Reservation> reservations = this.reservationService.getBookedReservationsByPropertyId(propertyId);
+
+        List<BookingDatesResponse> bookingDatesResponses = DtoMapper.fromReservations(reservations);
+
+        return ResponseEntity.ok(bookingDatesResponses);
+    }
+
 
     @GetMapping("/unavailable-to-book")
+    @Operation(summary = "Get properties that are unavailable to book within the parameters startDate and endDate")
     public ResponseEntity<List<UUID>> getUnavailableToBookPropertyIds(@RequestParam("checkIn") LocalDate startDate,
                                                                       @RequestParam("checkOut") LocalDate endDate) {
 

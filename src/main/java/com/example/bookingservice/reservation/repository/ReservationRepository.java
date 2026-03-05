@@ -30,4 +30,7 @@ public interface ReservationRepository extends JpaRepository<Reservation,UUID> {
     """)
     List<UUID> findUnavailablePropertyIds(@Param(value = "startDate") LocalDate startDate,
                                           @Param(value = "endDate") LocalDate endDate);
+
+
+    List<Reservation> findAllByPropertyId(UUID propertyId);
 }
