@@ -27,6 +27,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/reservations")
 @Tag(name = "Reservations", description = "Manage reservations")
+@CrossOrigin("http://localhost:8080")
 public class ReservationController {
 
     private final ReservationService reservationService;
