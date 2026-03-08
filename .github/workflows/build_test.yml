@@ -30,6 +30,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Run tests
-        run: mvn -B test -Dspring.profiles.active=h2
+        run: mvn -B test -Dspring.profiles.active=test
       - name: Build package
         run: mvn -B package -DskipTests
